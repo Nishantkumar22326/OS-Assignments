@@ -1,0 +1,41 @@
+Introduction-->
+
+This document give the details of the implementation of the SimpleLoader written in C language.
+
+
+Contribution-->
+
+    Niteen Kumar (2022336):
+        Contribution: 1. Error Handling
+                      2. Cleanup function
+                      3. Debugging
+
+    Nishant Kumar (2022326):
+        Contribution:  1. Load_and_run_elf function
+                       2. main function
+    
+
+Implementation--->
+
+
+The SimpleLoader is designed to load and execute ELF files using the C programming language. It consists of the following main components:
+
+    loader.h: This header file defines the necessary data structures and functions for the loader.
+
+    loader.c: This source file contains the implementation of the loader, including memory allocation, program header processing, memory mapping, and execution.
+
+Loader Functions
+void load_and_run_elf(char **exe)
+
+This function is responsible for loading and executing the ELF file. It follows these steps:
+
+   --> Open the ELF file specified as a command-line argument.
+   --> Read the ELF header to retrieve necessary information.
+   --> Allocate memory for the ELF header and program headers.
+   --> Read the program headers.
+   --> Iterate through the program headers and load the loadable segments into memory using mmap.
+   --> Call the entry point of the loaded ELF program.
+   --> Print the result obtained from the ELF program execution.
+
+Cleanup function--> It Cleanup the memory.   
+
