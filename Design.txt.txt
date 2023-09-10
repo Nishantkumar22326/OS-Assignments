@@ -1,0 +1,74 @@
+Introduction-->
+
+1. This document give the details of the implementation of the Simple Shell written in C language.
+2. This is a simple custom C shell that allows users to interact with their computer through terminal.
+3. The shell provides basic features such as executing single commands and commands with pipes, maintaining a command history, handling Ctrl+C, and displaying command commands history after adding them to the command history data.
+
+
+Link to the github repository : https://github.com/Nishantkumar22326/OS-ASSIGNMENTS.git
+
+
+Contribution-->
+
+    Nishant Kumar (2022326):
+        Contribution:  1. Add to history function
+                       2. Show History function
+                       3. Pressed Ctrl-c function
+                       4. Create process function
+                       5. Main function
+                       6. Launch function
+                       7. Struct Command
+
+    Niteen Kumar (2022336):
+        Contribution: 1. Pipe part and it's functions
+                      2. Comments adding
+                      3. Debugging
+
+Implementation--->
+
+Command Execution:
+The shell can execute both single commands and commands with pipes (e.g., ls -l | grep "file").
+
+Command History:
+The shell maintains a command history that records details of executed commands, including the command itself, process ID (PID), execution time, and memory usage.
+
+Ctrl+C Handling:
+The shell handles Ctrl+C (SIGINT). When the user presses Ctrl+C during a command's execution, the shell terminates the command and displays the command history before exiting.
+
+Command "history":
+Users can view their command history by entering the history command in the shell.
+
+Exiting the Shell:
+Users can exit the shell by entering the exit command.
+ 
+
+COMMANDS WHICH ARE NOT SUPPORTED IN OUR DESIGN DOCUMENT:
+a) General Reason: Commands with Special Characters: Commands with special characters such as wildcards (*, ?) or variable substitution ($) may not work as expected when executed directly with execvp because these characters are typically interpreted by the shell.
+b) Executing shell scripts (e.g., those written in Bash, Python, Perl, etc.) directly with execvp is not possible. You need to execute the corresponding interpreter (e.g., /bin/bash, /usr/bin/python, etc.) and provide the script file as an argument.
+
+1.vim
+Execution error: No such file or directory
+Reason- The vim command won't work with execvp because it's an interactive text editor rather than an external executable file.
+2.chmod
+Execution error: No such file or directory
+Reason- Due to the above mentioned issues.
+3.dpkg --update-avail
+Execution error: No such file or directory
+4.cd 
+Execution error: No such file or directory
+Reason- The "cd" command is a shell built-in command that is typically not executed using the execvp function because it is not an external executable file. Instead, it is a special command that changes the current working directory of the shell process itself. This is why we're encountering the "No such file or directory" error when trying to execute "cd" with execvp.
+
+
+EXTRA COMMANDS OTHER THAN THE MENTIONED ONES:
+1. which
+2. touch
+3. du
+4. vi
+5. su
+6. fdisk (sudo fdisk -l)
+7. ifconfig 
+8. man
+9. cp
+10.xargs
+11. df
+12. whoami
