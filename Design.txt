@@ -1,0 +1,71 @@
+Introduction-->
+
+1. This document give the details of the implementation of the Scheduler written in C language.
+2. Implementing a simple shell and scheduler for managing and executing processes.
+3. The SimpleShell initiates the Scheduler, which controls the execution of submitted processes.
+4. The SimpleShell manages the shared memory and user input.
+5. The Scheduler manages the execution of processes stored in the shared memory.
+
+
+Link to the github repository : https://github.com/Nishantkumar22326/OS-ASSIGNMENTS.git
+
+
+Contribution-->
+
+    Nishant Kumar (2022326):
+        Contribution:  1. Implementation of the scheduler
+        			a. Scheduler algorithm
+        			b. shared memory
+        			c. design file
+        			d. Queue functions
+        			e. Shared memory header file
+                  
+    Niteen Kumar (2022336):
+        Contribution: 1. Implementation of the shell 
+        			a. shell algorithm
+        			b. system calls
+        			c. History Printing function
+        			d. Debugging
+        			
+                      
+                       
+
+Implementation--->
+
+# SimpleShell (SimpleShell.c):
+
+1. Command-Line Arguments: The program expects two command-line arguments, the number of CPUs and the process to execute the Scheduler. These arguments are validated.
+ 
+2. Shared Memory: It attaches to shared memory using the `ftok` and `shmget` functions. The shared memory stores an array of process IDs (`process_ids`) and an index (`ind`).
+
+3. Signal Handling: The program defines signal handlers for `SIGALRM` and `SIGUSR2`. The `SIGALRM` handler is responsible for resuming the scheduler when a timer expires, and the `SIGUSR2` handler stops the scheduler for a period.
+
+4. Scheduler Launch: It forks a new process to execute the Scheduler (`./Scheduler`) and then stops the Scheduler using `kill` with `SIGSTOP`.
+
+5. Interactive Loop: It enters a loop to take user input and manage the processes.
+
+6. Submit Command: When the user submits a command, the program parses it to extract the program name. It then forks a new process to execute the submitted program. If the fork is successful (the process ID is greater than 0), it stops the new process (`SIGSTOP`) and stores its PID in the shared memory.
+
+7. Looping: The main loop continues to take user input and manage submitted processes, and an alarm is set to resume the Scheduler after 20 seconds.
+
+# Scheduler (SimpleScheduler.c):
+
+1. Command-Line Argument: The Scheduler expects one command-line argument, which is the number of CPUs.
+
+2. Shared Memory: Similar to the SimpleShell, it attaches to shared memory to access the process information.
+
+3. Signal Handling: The Scheduler defines signal handlers for `SIGUSR1` and `SIGCONT`. `SIGUSR1` is used for resuming a process, and `SIGCONT` is used for signaling that a process should continue execution.
+
+4. Queue Initialization: The program initializes a ready queue (`ready_queue`) to manage processes that are ready to run. It provides functions for managing this queue, including `enqueue`, `dequeue`, `is_empty`, and `is_full`.
+
+5. Main Loop: The main loop of the Scheduler waits for signals. When it receives a `SIGCONT` signal, it calls the `RUN_KRDO_MUJHE` function.
+
+6. There is a function which iterates over processes stored in shared memory, sending a `SIGCONT` signal to each, and then waiting for them to complete (using `waitpid`). Once a process completes, it is printed as "ran."
+
+7. Process Control: This code also sends a `SIGUSR2` signal to the parent process (SimpleShell) to indicate that it should pause and not start new processes. This is used to coordinate process execution.
+
+8. Interactive Loop: The Scheduler's main loop continues indefinitely.
+
+
+In summary, the SimpleShell and Scheduler work together using shared memory and signals to control the execution of submitted processes, pausing them and resuming them in coordination with each other.
+
