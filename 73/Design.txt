@@ -1,0 +1,64 @@
+Introduction-->
+
+1. This document give the details of the implementation of the Simple Smart loader written in C language.
+2. The ELF Loader with Page-By-Page Allocation is a C program designed to load and execute ELF (Executable and Linkable Format) files. 
+3. It efficiently handles page faults by allocating memory for segments on a page-by-page basis. 
+4. This design document outlines the structure, components, and the overall functionality of the program.
+
+Link to the github repository : https://github.com/Nishantkumar22326/OS-ASSIGNMENTS.git
+
+
+Contribution-->
+
+    Nishant Kumar (2022326):
+        Contribution:  1. Segfault handler function
+                       2. load and run elf function
+                       3. segment loading
+                       4. Main function
+
+    Niteen Kumar (2022336):
+        Contribution: 1. Cleanup function
+                      2. Struct segment
+                      3. Debugging
+                      4. Comments adding
+                      
+                      
+Components--->
+
+    1. Main Function:
+        Initializes signal handling for segmentation faults.
+        Executes the program while handling page faults.
+        Prints statistics on page faults and memory allocations.
+        Calls the cleanup function.
+
+    2. Signal Handling (segfault_handler):
+        Catches segmentation faults.
+        Identifies the segment responsible for the fault.
+        Allocates virtual memory for the missing page.
+        Copies the segment content to the allocated memory.
+
+    3. Segment Loading (load_segment):
+        Allocates virtual memory for a segment page if needed.
+        Copies the content of the segment from the ELF file into the allocated memory.
+        Tracks the number of pages allocated and internal fragmentation.
+
+    4. Cleanup (loader_cleanup):
+        Frees allocated memory for ELF headers, program headers, and segments.
+        Closes open files.                      
+                      
+
+Implementation--->
+
+    1. The program starts by initializing signal handling to capture segmentation faults (SIGSEGV).
+
+    2. It reads the ELF file header and the program header table to gather information about the segments.
+
+    3. Memory is allocated for each segment in a page-by-page manner as needed.
+
+    4. The program executes the ELF file while handling page faults.
+
+    5. When a page fault occurs, the segfault_handler function allocates memory for the missing page, copies the segment content, and allows the program to continue.
+
+    6. The statistics on page faults and memory allocations are printed upon program completion.
+
+    7. The cleanup function is called to release memory and close open files.
